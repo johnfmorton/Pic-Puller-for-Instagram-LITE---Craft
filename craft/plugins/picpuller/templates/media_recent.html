@@ -1,0 +1,19 @@
+{% extends "_layout" %}
+
+{% block main %}
+
+	<ul>
+{% for entry in craft.entries.find({section: 'Blog', limit: '200', order: 'postDate desc'}) %}
+        <li><a href="{{ entry.url }}">{{ entry.title }}</a></li>
+{% endfor %}
+	</ul>
+
+<h3>Pic Puller at work</h3>
+
+<h2>popularPics</h2>
+
+{% for popularPics in craft.picpuller.popular({'foo': 'bar', 'use_stale_cache' : true, 'limit': 20}) %}
+        <p><img src="{{ popularPics.low_resolution }}"></p>
+{% endfor %}
+
+{% endblock %}

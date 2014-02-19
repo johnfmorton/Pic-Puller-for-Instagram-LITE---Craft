@@ -1,0 +1,10 @@
+<h2 class='pp'>Success!</h2>
+
+<h3>You’ve successfully authorized this site to access your Instagram feed.</h3>
+
+<form method="post" accept-charset="UTF-8" action="">
+	<input type="hidden" name="action" value="picPuller/oauth/removeOauth">
+    <input type="hidden" name="oauth_id" value="{{ userOauthId }}" />
+	<p>The current logged in user, <em>{{ user.username }}</em>, has saved oAuth information stored for this application.</p>
+	<p><input class="btn submit" type="submit" name="step2" value="Remove oAuth for this user"></p>
+</form>

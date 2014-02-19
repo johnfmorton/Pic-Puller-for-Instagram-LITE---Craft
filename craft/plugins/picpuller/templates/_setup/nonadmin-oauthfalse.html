@@ -1,0 +1,18 @@
+<h2 class='pp'>Set Up</h2>
+
+{% if ig_credentials.clientSecret %}
+
+<p>Below you can authenticate your Instagram account to work with this site.</p>
+
+{% set redirectUrl = 'https://api.instagram.com/oauth/authorize?client_id=' ~ ig_credentials.clientId ~ '&redirect_uri=' ~ url('picpuller/auth') ~ '&response_type=code' %}
+
+<form>
+	<p><a class="btn submit" type="submit" name="step3" value="{{ 'Authenticate'|t }}" href="{{ redirectUrl }}" >Authenticate with Instagram</a></p>
+</form>
+
+{% else %}
+	<p>The Instagram application has not been set up for this site yet and can only be done by an Admin of this site. When the application has been saved, you will be able to return to this page to authenticate this site to access your Instagram feed.</p>
+
+	<p><a href="#" class='btn submit disabled'>Authenticate</a></p>
+
+{% endif %}

@@ -1,0 +1,36 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+{% includeCssResource("picpuller/style.css") %}
+
+{% set title = "Pic Puller for Instagram"|t %}
+{% if ig_credentials is not defined %}
+    {% set ig_credentials = craft.picpuller.getCredentials %}
+{% endif %}
+{% set userOauthId = craft.picpuller.getUserOauthId(user.id) %}
+
+{% set content %}
+{% if user.admin and userOauthId == 0 %}
+    {% include "picpuller/_setup/admin-oauthfalse" %}
+{% elseif user.admin and userOauthId != 0 %}
+    {% include "picpuller/_setup/admin-oauthtrue" %}
+{% elseif user.admin == 0 and userOauthId == 0 %}
+    {% include "picpuller/_setup/nonadmin-oauthfalse" %}
+{% elseif user.admin == 0 and userOauthId != 0 %}
+    {% include "picpuller/_setup/nonadmin-oauthtrue" %}
+{% endif %}
+
+
+{% endset %}
+{% if user.admin %}
+
+{% set tabs = {
+
+    setup: { label: "Set Up"|t, url: url('picpuller') },
+    info:    { label: "Active App Info"|t, url: url('picpuller/info') },
+    users: { label: "Authorized Users", url: url('picpuller/users')}
+
+} %}
+
+{% endif %}
+
+{% set selectedTab = 'setup' %}

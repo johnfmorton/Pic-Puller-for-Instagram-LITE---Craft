@@ -1,0 +1,54 @@
+{% extends "_layouts/cp" %}
+{% includeCssResource("picpuller/style.css") %}
+{% includeJsResource("picpuller/spin.min.js") %}
+{% includeJsResource("picpuller/auth.js") %}
+
+{% set title = "Pic Puller for Instagram"|t %}
+{% set ig_credentials = craft.picpuller.getCredentials %}
+
+{% set content %}
+    <h2 class='pp'>Authenticating with Instagram</h2>
+    {% if craft.request.getQuery('code') != '' %}
+    <div id='status' class='pp'></div>
+
+    <p><span id="message">Communicating with Instagram</span></p>
+    <p id='returnbt'><a href="{{ url('picpuller') }}" class='btn' title='Return to Pic Puller'>Return to Pic Puller</a></p>
+    {% set authenticationJS %}
+    var data = {
+        code: "{{ craft.request.getQuery('code') }}",
+        userId: "{{ user.id }}",
+        appId: "{{ ig_credentials.id }}",
+        clientId: "{{ ig_credentials.clientId}}",
+        clientSecret: "{{ ig_credentials.clientSecret}}",
+        authUrl: "{{ url('picpuller/auth') }}"
+    };
+    if (data.code !== ''){
+    Craft.postActionRequest('picPuller/oauth/authenticate', data, function(response) {
+        //console.log('I heard back from the post action');
+        //console.log(response);
+        if( response.success == 0 ) {
+
+           $("#message").html("<p>An error was returned.</p><p><em>" + response.error_type + ": " +response.error_message + "</em></p>");
+        } else {
+            $("#message").html("<p>That was easy.</p>");
+        }
+        $("#status").remove();
+        $('#returnbt').show();
+
+    });
+    }
+    {% endset %}
+    {% includeJs authenticationJS %}
+
+    {% elseif craft.request.getQuery('error') != '' %}
+    <p><strong>{{ craft.request.getQuery('error') }}</strong></p>
+    <p>Reason: {{ craft.request.getQuery('error_reason') }}</p>
+    <p>Description: {{ craft.request.getQuery('error_description') }}</p>
+    {% else %}
+    <p>ERROR: If you were trying to authenticate an Instagram application the proper values were not passed to this page that are needed to proceed.</p>
+    {% endif %}
+
+
+{% endset %}
+
+{% set selectedTab = null %}

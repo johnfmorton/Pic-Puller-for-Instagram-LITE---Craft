@@ -1,0 +1,75 @@
+{%if user.admin == 0 %}
+    {% redirect 'picpuller' %}
+{% endif %}
+{% extends "_layouts/cp" %}
+{% includeCssResource("picpuller/style.css") %}
+
+{% set title = "Pic Puller for Instagram"|t %}
+{% set users = craft.picpuller.getUsers() %}
+{% if users|length == 1 %}
+	{% set userverb = "is" %}
+	{% set userverb2 = "has" %}
+	{% set userphrase = "user" %}
+	{% else %}
+	{% set userverb = "are" %}
+	{% set userverb2 = "have" %}
+	{% set userphrase = "users" %}
+{% endif %}
+
+{% if ig_credentials is not defined %}
+    {% set ig_credentials = craft.picpuller.getCredentials %}
+{% endif %}
+
+{% set content %}
+<h2 class='pp'>Users</h2>
+{% if ig_credentials.clientId and ig_credentials.clientSecret %}
+
+    {#
+
+    Branding for PP to go here eventually.
+
+    <img src="{{ resourceUrl('picpuller/pp-icon.png') }}" alt="Pic Puller Icon">
+
+     <p>{{ user.name }} : {{ user.id }} {{ user.admin }}</p>
+
+     #}
+
+    <p>There {{ userverb }} {{ users|length }} {{ userphrase }} who {{ userverb2 }} authorized this Instagram app.</p>
+
+
+    <table class="data collapsible">
+        <thead>
+            <tr>
+                <th scope="col">Craft User ID</th>
+                <th scope="col">Craft User</th>
+                <th scope="col">Instagram ID</th>
+                <th scope="col">Instagram oAuth</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in users %}
+                    <tr>
+                        <td>{{ entry.member_id }}</em></td>
+                        <td>{{ entry.firstname}} {{ entry.lastname}} <em>({{ entry.username}})</em></td>
+                        <td>{{entry.instagram_id}}</td>
+                        <td>{{entry.oauth}}</td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <p>There are no users because the Instagram appliaction set up does not appear to be complete. Please update the applications Client ID and Client Secret in the <a href="{{ url('picpuller')}}">set up tab</a>.</p>
+
+{% endif %}
+{% endset %}
+
+{% set tabs = {
+    setup: { label: "Set Up"|t, url: url('picpuller') },
+    info:    { label: "Active App Info"|t, url: url('picpuller/info') },
+    users: { label: "Authorized Users", url: url('picpuller/users')}
+} %}
+
+{% set selectedTab = 'users' %}

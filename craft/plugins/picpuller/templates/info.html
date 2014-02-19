@@ -1,0 +1,60 @@
+{%if user.admin == 0 %}
+    {% redirect 'picpuller' %}
+{% endif %}
+{% extends "_layouts/cp" %}
+{% includeCssResource("picpuller/style.css") %}
+
+{% set title = "Pic Puller for Instagram"|t %}
+
+{% if ig_credentials is not defined %}
+    {% set ig_credentials = craft.picpuller.getCredentials %}
+{% endif %}
+
+{% set content %}
+{% if user.admin %}
+    <h2 class='pp'>Info</h2>
+
+    {% if ig_credentials.clientId and ig_credentials.clientSecret %}
+
+
+
+    <!-- <img src="{{ resourceUrl('picpuller/pp-icon.png') }}" alt="Pic Puller Icon"> -->
+    <p>Below is the information about the Instagram application. Chaning servers may change the <em>oAuth redirect URL</em>. This will need to be updated on the Instagram site in the <a href="http://instagram.com/developer/clients/manage/" target='_blank'>Manage Clients</a> section to allow users to continue to authorize the app properly.</p>
+
+    <table class="data collapsible">
+        <thead>
+            <tr>
+                <th scope="col">oAuth redirect URL</th>
+                <th scope="col">Client ID</th>
+                <th scope="col">Client Secret</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+                    <tr>
+                        <td>{{ url('picpuller/auth') }}</td>
+                        <td>{{ ig_credentials ? ig_credentials.clientId : null }}</td>
+                        <td>{{ig_credentials ? ig_credentials.clientSecret : null}} (<a href="{{url('picpuller/edit_secret')}}">edit</a>)</td>
+                    </tr>
+
+        </tbody>
+    </table>
+    <br>
+        <p><a href="{{ url('picpuller/delete_app') }}"class="btn submit" type="submit" n value="">Delete Instagram App from Craft</a></p>
+    <p>You will be asked for confirmation on the next screen before the application is deleted.</p>
+    {% else %}
+    <p>The Instagram appliaction set up does not appear to be complete. Please update the applications Client ID and Client Secret in the <a href="{{ url('picpuller')}}">set up tab</a>.</p>
+    {% endif %}
+{% endif %}
+
+
+{% endset %}
+
+{% set tabs = {
+    setup: { label: "Set Up"|t, url: url('picpuller') },
+    info:    { label: "Active App Info"|t, url: url('picpuller/info') },
+    users: { label: "Authorized Users", url: url('picpuller/users')}
+} %}
+
+{% set selectedTab = 'info' %}

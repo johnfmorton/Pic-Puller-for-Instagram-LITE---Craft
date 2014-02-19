@@ -1,0 +1,13 @@
+    <h2 class='pp ppwarning'>Delete Application Confirmation</h2>
+
+    <p>You are about to delete the current Instagram application from Craft. This will also delete all user oAuth information from the database. If you create a new application or re-create the one you are about to delete, all users will be required to reauthorize the application.</p>
+
+    <p>This process does not delete the app from within the Instagram development area. You must do that from the <a href="http://instagram.com/developer/clients/manage/" target='_blank'>Manage Clients</a> page on Instagram.</p>
+
+<form method="post" accept-charset="UTF-8" action="">
+        <input type="hidden" name="action" value="picPuller/oauth/deleteApplication">
+        <input type="hidden" name="id" value="{{ ig_credentials.id }}" />
+        <input type="hidden" name="redirect" value="picpuller">
+
+        <p><input class="btn submit" type="submit" name="deleteapp" value="Delete Instagram App from Craft"></p>
+    </form>

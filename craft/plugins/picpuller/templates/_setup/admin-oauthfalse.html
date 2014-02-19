@@ -1,0 +1,59 @@
+    <h2 class='pp'>Set Up</h2>
+    <h3>Step 1</h3>
+    <p><!-- <img src="{{ resourceUrl('picpuller/pp-icon.png') }}" alt="Pic Puller Icon" class='left'> -->Create a new Instagram application in the developer area on the <a href="http://instagram.com/developer/clients/register/" target='_blank'>Register new OAuth Client</a> page. If your application already exists, you'll find it on the <a href="http://instagram.com/developer/clients/manage/" target='_blank'>Manage Clients</a> page instead.</p>
+    <p>Creating an Instagram application for this site will require <strong>OAuth redirect_uri</strong> below.</p>
+
+    <div class='field'>
+        <div class="heading"><label><strong>OAuth redirect_uri</strong></label></div>
+        <!-- <div class='input'><input value={{actionUrl('picpuller/oauth/authenticate')}} class='text fullwidth'></input></div> -->
+        <div class='input'><input value={{ url('picpuller/auth') }} class='text fullwidth'></input></div>
+    </div>
+
+    <p>After you've completed your application set up at Instagram, you'll be provided with a Client ID and a Client Secret for use in Step 2.</p>
+
+    <hr>
+    <h3>Step 2</h3>
+    <p>In the fields below, enter the information exactly as provided by Instagram for your application.</p>
+    <form method="post" accept-charset="UTF-8" action="">
+    <input type="hidden" name="action" value="picPuller/oauth/saveCredentials">
+    <input type="hidden" name="id" value="{{ ig_credentials.id }}" />
+    {{ forms.textField({
+            label: 'Instagram Client Id'|t,
+            required: true,
+            name: 'clientId',
+            value: ig_credentials ? ig_credentials.clientId : null,
+            errors: ig_credentials ? ig_credentials.errors('clientId') : null,
+            disabled: false
+        }) }}
+
+    {{ forms.textField({
+            label: 'Instagram Client Secret'|t,
+            required: true,
+            name: 'clientSecret',
+            value: ig_credentials ? ig_credentials.clientSecret : null,
+            errors: ig_credentials ? ig_credentials.errors('clientSecret') : null,
+            disabled: false
+        }) }}
+
+
+    <p><input class="btn submit" type="submit" name="step2" value="{{ ig_credentials.id is not null ? 'Update' : 'Save' |t }}"></p>
+
+    </form>
+    <hr>
+    <h3>Step 3</h3>
+
+
+    {% if ig_credentials.clientSecret %}
+
+    {% set redirectUrl = 'https://api.instagram.com/oauth/authorize?client_id=' ~ ig_credentials.clientId ~ '&redirect_uri=' ~ url('picpuller/auth') ~ '&response_type=code' %}
+    <p>Almost done! Authenticate your application to work with your site.</p>
+    <form>
+        <input type="hidden" name="id" value="{{ ig_credentials.id }}" />
+        <p><a class="btn submit" type="submit" name="step3" value="{{ 'Authenticate'|t }}" href="{{ redirectUrl }}" >Authenticate</a></p>
+    </form>
+
+    {% else %}
+        <p>Complete Step 2 before authenticating your application.</p>
+        <p><a href="#" class='btn submit disabled'>Authenticate</a></p>
+
+    {% endif %}
