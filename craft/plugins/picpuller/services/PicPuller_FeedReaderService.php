@@ -32,6 +32,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	private $_ig_picpuller_prefix = '';
 	private $use_stale = TRUE;
 	private $refresh = 45;	// Period between cache refreshes, in minutes
+	const IG_API_URL = 'https://api.instagram.com/v1/';
 
 	/**
 	 * Get popular photos from Instagram
@@ -953,7 +954,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 					'CURLOPT_RETURNTRANSFER' => 1, 
 					'CURLOPT_SSL_VERIFYPEER' => false,
 				);
-		$client = new \Guzzle\Http\Client('https://api.instagram.com/v1/'.$url, $options);
+		$client = new \Guzzle\Http\Client(self::IG_API_URL.$url, $options);
 
 		$request = $client->get();
 		$response = $request->send();
