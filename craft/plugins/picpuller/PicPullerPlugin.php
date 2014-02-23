@@ -4,11 +4,11 @@ namespace Craft;
 class PicPullerPlugin extends BasePlugin
 {
     function getName() {
-        return Craft::t( 'Pic Puller' );
+        return Craft::t( 'Pic Puller for Instagram' );
     }
 
     function getVersion() {
-        return '1.0';
+        return '1.1';
     }
 
     function getDeveloper() {
