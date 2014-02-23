@@ -33,7 +33,6 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	private $use_stale = TRUE;
 	private $refresh = 45;	// Period between cache refreshes, in minutes
 
-
 	/**
 	 * Get popular photos from Instagram
 	 * @access public
@@ -42,7 +41,9 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	 */
 	public function popular($tags = null)
 	{
-		Craft::log("Pic Puller: popular");
+		Craft::log("CRAFT_PLUGINS_PATH:" . CRAFT_PLUGINS_PATH.'picpuller/lib/FirePHPCore/fb.php');
+
+		// \FB::log('Getting Popular', 'popular');
 
 		$variables = array();
 		$clientId = $this->_getClientId();
@@ -947,25 +948,23 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 
 	private function _fetch_data($url, $use_stale)
 	{
-		$ch = curl_init();
+		$options = array(
+					'debug' => true,
+					'CURLOPT_RETURNTRANSFER' => 1, 
+					'CURLOPT_SSL_VERIFYPEER' => false,
+				);
+		$client = new \Guzzle\Http\Client('https://api.instagram.com/v1/'.$url, $options);
 
-		curl_setopt($ch, CURLOPT_URL, $url);
-		// to prevent the response from being outputted
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		// POST to the Instagram auth url
-		//curl_setopt($ch, CURLOPT_POST, 1);
-		// adding the post variables to the request
-		//curl_setopt($ch, CURLOPT_POSTFIELDS, $datatopost);
-		// don't verify the SSL cert
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$request = $client->get();
+		$response = $request->send();
+		$body = JsonHelper::decode($response->getBody());
 
-		$data = json_decode(curl_exec($ch), true);
-		curl_close($ch);
+		\FB::info($response->isSuccessful(), 'isSuccessful()');
+		\FB::info($response, 'response');
+		\FB::info($body, 'body');
 
-		$valid_data = $this->_validate_data($data, $url, $use_stale);
-
+		$valid_data = $this->_validate_data($body, $url, $use_stale);
 		return $valid_data;
-
 	}
 
 	/**
