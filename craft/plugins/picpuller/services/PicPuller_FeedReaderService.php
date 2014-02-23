@@ -2,6 +2,24 @@
 
 namespace Craft;
 
+defined('CRAFT_PLUGINS_PATH')      || define('CRAFT_PLUGINS_PATH',      CRAFT_BASE_PATH.'plugins/');
+
+require_once(CRAFT_PLUGINS_PATH.'picpuller/lib/FirePHPCore/fb.php');
+/*
+
+Digging around? Enable FirePHP debugging by changin "devMode" to true in your config file, or, FB::setEnabled(true);
+You'll need to use FirePHP for Firefox or FirePHP4Chrome and look at your console in your web browser.
+
+
+*/
+\FB::setEnabled(craft()->config->get('devMode'));
+
+// Examples:
+// \FB::log('Log message', 'Label');
+// \FB::info('Info message', 'Label');
+// \FB::warn('Warn message', 'Label');
+// \FB::error('Error message', 'Label');
+
 /**
  * Cocktail Recipes Service
  *
