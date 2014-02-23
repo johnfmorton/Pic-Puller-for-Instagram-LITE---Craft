@@ -61,7 +61,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		$use_stale = isset($tags['use_stale']) ? $tags['use_stale'] : $this->use_stale;
 
 		// set up the POPULAR url used by Instagram
-		$query_string ="https://api.instagram.com/v1/media/popular?client_id=$clientId". $limit;
+		$query_string ="media/popular?client_id=$clientId". $limit;
 		$data = $this->_fetch_data($query_string, $use_stale);
 
 		if ($data['status'] === FALSE ) {
@@ -145,7 +145,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		}
 
 		// set up the USERS url used by Instagram
-		$query_string = "https://api.instagram.com/v1/users/self?access_token={$oauth}";
+		$query_string = "users/self?access_token={$oauth}";
 
 		$data = $this->_fetch_data($query_string, $use_stale);
 
@@ -234,7 +234,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		}
 
 		// set up the MEDIA url used by Instagram
-		$query_string = "https://api.instagram.com/v1/media/{$media_id}?access_token={$oauth}";
+		$query_string = "media/{$media_id}?access_token={$oauth}";
 
 		$data = $this->_fetch_data($query_string, $use_stale);
 
@@ -351,7 +351,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		}
 
 		// set up the MEDIA/RECENT url used by Instagram
-		$query_string = "https://api.instagram.com/v1/users/{$ig_user_id}/media/recent/?access_token={$oauth}". $limit.$max_id.$min_id;
+		$query_string = "users/{$ig_user_id}/media/recent/?access_token={$oauth}". $limit.$max_id.$min_id;
 
 		$data = $this->_fetch_data($query_string, $use_stale);
 
@@ -476,7 +476,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 			return $this->_unauthorizedUserErrorReturn();
 		}
 
-		$query_string = "https://api.instagram.com/v1/users/self/feed?access_token={$oauth}". $limit.$max_id.$min_id;
+		$query_string = "users/self/feed?access_token={$oauth}". $limit.$max_id.$min_id;
 
 		$data = $this->_fetch_data($query_string, $use_stale);
 
@@ -606,7 +606,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 			return $this->_unauthorizedUserErrorReturn();
 		}
 
-		$query_string = "https://api.instagram.com/v1/users/self/media/liked?access_token={$oauth}". $limit.$max_id.$min_id;
+		$query_string = "users/self/media/liked?access_token={$oauth}". $limit.$max_id.$min_id;
 
 		$data = $this->_fetch_data($query_string, $use_stale);
 
@@ -747,7 +747,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 			return $this->_unauthorizedUserErrorReturn();
 		}
 
-		$query_string = "https://api.instagram.com/v1/tags/$tag/media/recent?access_token={$oauth}". $limit.$max_id.$min_id;
+		$query_string = "tags/$tag/media/recent?access_token={$oauth}". $limit.$max_id.$min_id;
 
 		$data = $this->_fetch_data($query_string, $use_stale);
 
