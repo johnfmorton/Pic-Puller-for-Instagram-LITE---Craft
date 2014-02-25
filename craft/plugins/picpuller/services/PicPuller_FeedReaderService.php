@@ -27,13 +27,13 @@ You'll need to use FirePHP for Firefox or FirePHP4Chrome and look at your consol
  */
 class PicPuller_FeedReaderService extends BaseApplicationComponent
 {
+	const IG_API_URL = 'https://api.instagram.com/v1/';
 
 	private $cache_name = 'ig_picpuller';
 	private $_ig_picpuller_prefix = '';
 	private $use_stale = TRUE;
-	const IG_API_URL = 'https://api.instagram.com/v1/';
 	// $refresh stores the amount of time we'll keep cached data (urls, not actual images) from Instagram
-	private $refresh = 1440;	// Period between cache refreshes, in minutes. 1440 is 24 hours.
+	private $refresh = 1440;	// Period between cache refreshes, in minutes. 1440 is 24 hours. 
 
 	/**
 	 * Get popular photos from Instagram
