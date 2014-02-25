@@ -5,6 +5,7 @@ namespace Craft;
 defined('CRAFT_PLUGINS_PATH')      || define('CRAFT_PLUGINS_PATH',      CRAFT_BASE_PATH.'plugins/');
 
 require_once(CRAFT_PLUGINS_PATH.'picpuller/lib/FirePHPCore/fb.php');
+
 /*
 
 Digging around? Enable FirePHP debugging by changin "devMode" to true in your config file, or, FB::setEnabled(true);
