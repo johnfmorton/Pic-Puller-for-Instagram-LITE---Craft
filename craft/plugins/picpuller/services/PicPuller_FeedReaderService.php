@@ -31,8 +31,9 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	private $cache_name = 'ig_picpuller';
 	private $_ig_picpuller_prefix = '';
 	private $use_stale = TRUE;
-	private $refresh = 45;	// Period between cache refreshes, in minutes
 	const IG_API_URL = 'https://api.instagram.com/v1/';
+	// $refresh stores the amount of time we'll keep cached data (urls, not actual images) from Instagram
+	private $refresh = 1440;	// Period between cache refreshes, in minutes. 1440 is 24 hours.
 
 	/**
 	 * Get popular photos from Instagram
