@@ -957,7 +957,6 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 
 		if ($data !== '' && isset($data['meta']))
 		{
-			$error_array;
 			$meta = $data['meta'];
 			// 200 means IG api did respond with good data
 			if ($meta['code'] == 200)
@@ -980,36 +979,6 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 					);
 					// Fresher valid data was received, so update the cache to reflect that.
 					$this->_write_cache($data, $url);
-				}
-			}
-			else // this ELSE loop is only executed when the meta['code'] is not 200, typically, it's a 400
-			{
-				// even though there is an error, we can use old data if
-				// use_stale is set to YES. Here the $data passed in is replace with
-				// a cache version of itself if available
-				if ($use_stale == TRUE)
-				{
-					$data = $this->_check_cache($url, $use_stale);
-
-					if ($data) {
-						$data['cacheddata'] = TRUE;
-						$error_array = array(
-							'status' => TRUE,
-							'error_message' => (isset($meta['error_message']) ? $meta['error_message'] : 'No data returned from Instagram API. Check http://api-status.com/6404/174981/Instagram-API. Using cached data.' ), //. ' Using stale data as back up if available.',
-							'error_type' =>  (isset($meta['error_type']) ? $meta['error_type'] : 'NoCodeReturned')
-						);
-					}
-					else
-					{
-
-						$error_array = array(
-							'status' => FALSE,
-							'error_message' => (isset($meta['error_message']) ? $meta['error_message'] : 'No error message provided by Instagram. No cached data available.' ),
-							'error_type' =>  (isset($meta['error_type']) ? $meta['error_type'] : 'NoCodeReturned')
-						);
-
-						return $error_array;
-					}
 				}
 			}
 
