@@ -425,16 +425,6 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 
 		$variables = array();
 
-		// if (!$this->applicationExists() ) {
-		// 	$variables[] = array(
-		// 		$this->_ig_picpuller_prefix.'error_type' => 'NoInstagramApp',
-		// 		$this->_ig_picpuller_prefix.'error_message' => 'There is no application stored in the Expression Engine data base. It appear set up is not complete.',
-		// 		$this->_ig_picpuller_prefix.'status' => 'false'
-		// 	);
-
-		// 	return $variables;
-		// };
-
 		$use_stale = isset($tags['use_stale']) ? $tags['use_stale'] : $this->use_stale;
 
 
@@ -555,16 +545,6 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 
 		$variables = array();
 
-		// if (!$this->applicationExists() ) {
-		// 	$variables[] = array(
-		// 		$this->_ig_picpuller_prefix.'error_type' => 'NoInstagramApp',
-		// 		$this->_ig_picpuller_prefix.'error_message' => 'There is no application stored in the Expression Engine data base. It appear set up is not complete.',
-		// 		$this->_ig_picpuller_prefix.'status' => 'false'
-		// 	);
-
-		// 	return $variables;
-		// };
-
 		$use_stale = isset($tags['use_stale']) ? $tags['use_stale'] : $this->use_stale;
 
 		$user_id = isset($tags['user_id']) ? $tags['user_id'] : '';
@@ -682,16 +662,6 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		Craft::log('Pic Puller: tagged_media');
 
 		$variables = array();
-
-		// if (!$this->applicationExists() ) {
-		// 	$variables[] = array(
-		// 		$this->_ig_picpuller_prefix.'error_type' => 'NoInstagramApp',
-		// 		$this->_ig_picpuller_prefix.'error_message' => 'There is no application stored in the Expression Engine data base. It appear set up is not complete.',
-		// 		$this->_ig_picpuller_prefix.'status' => 'false'
-		// 	);
-
-		// 	return $variables;
-		// };
 
 		$use_stale = isset($tags['use_stale']) ? $tags['use_stale'] : $this->use_stale;
 
