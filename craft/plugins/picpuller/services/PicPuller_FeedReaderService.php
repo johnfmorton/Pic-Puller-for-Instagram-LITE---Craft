@@ -921,7 +921,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	private function _fetch_data($url, $use_stale)
 	{
 		$options = array(
-					'debug' => true,
+					'debug' => false,
 					'CURLOPT_RETURNTRANSFER' => 1, 
 					'CURLOPT_SSL_VERIFYPEER' => false,
 				);
@@ -931,9 +931,9 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		$response = $request->send();
 		$body = JsonHelper::decode($response->getBody());
 
-		\FB::info($response->isSuccessful(), 'isSuccessful()');
-		\FB::info($response, 'response');
-		\FB::info($body, 'body');
+		// \FB::info($response->isSuccessful(), 'isSuccessful()');
+		// \FB::info($response, 'response');
+		// \FB::info($body, 'body');
 
 		$valid_data = $this->_validate_data($body, $url, $use_stale);
 		return $valid_data;
@@ -951,6 +951,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	 */
 
 	private function _validate_data($data, $url, $use_stale){
+
 
 		// to FAKE a non-responsive error from Instagram, change the initial conditional meta code statement below
 		// from $data !== '' to $data === ''
@@ -988,7 +989,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 
 			if ($use_stale == TRUE)
 			{
-				$data = $this->_check_cache($url, $use_stale);
+				$data = $this->_check_cache($url);
 			}
 			if ($data) {
 				$data['cacheddata'] = TRUE;
@@ -997,12 +998,21 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 					'error_message' => (isset($meta['error_message']) ? $meta['error_message'] : 'No data returned from Instagram API. Check http://api-status.com/6404/174981/Instagram-API. Using cached data.' ), //. ' Using stale data as back up if available.',
 					'error_type' =>  (isset($meta['error_type']) ? $meta['error_type'] : 'NoCodeReturned')
 				);
+			} else {
+				$data['cacheddata'] = FALSE;
+				$error_array = array(
+							'status' => FALSE,
+							'error_message' => (isset($meta['error_message']) ? $meta['error_message'] : 'No error message provided by Instagram. No cached data available.' ),
+							'error_type' =>  (isset($meta['error_type']) ? $meta['error_type'] : 'NoCodeReturned')
+						);
 			}
 
 		}
-		return array_merge($data, $error_array);
+
 		// merge the original data or cached data (if stale allowed) with the error array
+		return array_merge($data, $error_array);
 	}
+
 	// ---------- CACHE CONTROL/ ------------- //
 
 	/**
@@ -1015,35 +1025,29 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	 * @param	bool	Allow pulling of stale cache file
 	 * @return	mixed - string if pulling from cache, FALSE if not
 	 */
-	private function _check_cache($url, $use_stale = FALSE)
+	private function _check_cache($url)
 	{
 		// Check for cache directory
 		Craft::log('Pic Puller: Checking Cache');
 		$cacheDirectory = craft()->path->getCachePath() . '/' . $this->cache_name . '/';
-		$dir = $cacheDirectory;
 
-		if ( ! @is_dir($dir))
-		{
-			Craft::log('CHECK CASHE: directory wasn\'t accessible');
+		if ( ! IOHelper::folderExists($cacheDirectory)){
+			\FB::info('Cache folder DOES NOT exist; no cache to check for.');
 			return FALSE;
-		}
+		} 
 
 		// Check for cache file
 
-		$file = $dir.md5($url);
+		$file = $cacheDirectory.md5($url);
 
-		if ( ! file_exists($file) OR ! ($fp = @fopen($file, 'rb')))
-		{
+		if ( ! IOHelper::fileExists($file)){
+			\FB::info('Cache file DOES NOT exist.');
 			return FALSE;
-		}
+		} 
 
-		flock($fp, LOCK_SH);
+		$cache = IOHelper::getFileContents($file);
 
-		$cache = @fread($fp, filesize($file));
-
-		flock($fp, LOCK_UN);
-
-		fclose($fp);
+		// \FB::info($cache, 'Cache file');
 
 		// Grab the timestamp from the first line
 
@@ -1052,14 +1056,19 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		$timestamp = substr($cache, 0, $eol);
 		$cache = trim((substr($cache, $eol)));
 
-		if ($use_stale == FALSE && time() > ($timestamp + ($this->refresh * 60)))
+		\FB::info($timestamp, 'timestamp');
+		\FB::info($this->refresh, '$this->refresh');
+		\FB::info(time(), 'time()');
+		\FB::info($timestamp + ($this->refresh * 60), '$timestamp + ($this->refresh * 60)');
+
+		if (time() > ($timestamp + ($this->refresh * 60)))
 		{
 			return FALSE;
 		}
 
 		Craft::log("Instagram data retrieved from cache");
 
-		$cache = json_decode($cache, true);
+		$cache = JsonHelper::decode($cache);
 
 		return $cache;
 	}
@@ -1077,49 +1086,32 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	private function _write_cache($data, $url)
 	{
 
-		// Check for cache directory
 		Craft::log('Pic Puller: _write_cache $data '. gettype($data));
-
-		$cacheDirectory = craft()->path->getCachePath() . '/' . $this->cache_name . '/';
-
 		$data = json_encode($data);
+		
 
-		$dir = $cacheDirectory;
+		// Figure out the cache directory path and name
+		$cacheDirectory = craft()->path->getCachePath() . '/' . $this->cache_name . '/';
+		// Make sure the folder exists and create it if it doesn't.
+		IOHelper::ensureFolderExists($cacheDirectory);
 
-		if ( ! @is_dir($dir))
-		{
-			if ( ! @mkdir($dir, 0777))
-			{
-				return FALSE;
-			}
-
-			@chmod($dir, 0777);
-		}
+		\FB::info($cacheDirectory, 'cacheDirectory');
+		\FB::info($url, 'url');
 
 		// add a timestamp to the top of the file
 		$data = time()."\n".$data;
 
-		// Write the cached data
-		$file = $dir.md5($url);
-
-		if ( ! $fp = @fopen($file, 'wb'))
-		{
-			return FALSE;
-		}
-
-		flock($fp, LOCK_EX);
-		fwrite($fp, $data);
-		flock($fp, LOCK_UN);
-		fclose($fp);
-
-		@chmod($file, 0777);
+		$file = $cacheDirectory.md5($url);
+		\FB::info($file, 'file');
+		// Write it out to the file
+		IOHelper::writeToFile($file , $data , true);
 
 		// now clean up the cache
 		$this->_clear_cache();
 	}
 
 	/**
-	 * Clear out the cache directory and keep only the 25 most recent files
+	 * Clear out the cache directory and keep only the 50 most recent files
 	 * @return NULL
 	 */
 	private function _clear_cache()
@@ -1129,10 +1121,12 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		$dir = $cacheDirectory;
 
 		$sorted_array = $this->listdir_by_date($dir.$file);
+		
+		\FB::info($sorted_array, 'sorted_array');
 
 		$count = count($sorted_array);
 		foreach ($sorted_array as $value) {
-			if($count > 25 ){
+			if($count > 50 ){
 			// unlinking, as in deleting, cache files that are oldest, but keeping 25 most recent
 			unlink($dir.$value);
 			}
