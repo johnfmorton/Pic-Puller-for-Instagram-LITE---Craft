@@ -486,7 +486,6 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		}
 
 		$node = $data['data'];
-		//$next_url = isset($data['pagination']['next_url']) ? $data['pagination']['next_url'] : 'no';
 
 		$next_max_id = '';
 		if (isset($data['pagination']['next_max_id'])){
@@ -877,11 +876,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 			);
 		return $variables;
 	}
-
-
-
-
-
+	
 
 	/**
 	 * Get user oAuth by Craft user ID
