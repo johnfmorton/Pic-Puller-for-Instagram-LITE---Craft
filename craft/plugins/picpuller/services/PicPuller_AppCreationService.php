@@ -102,7 +102,7 @@ class PicPuller_AppCreationService extends BaseApplicationComponent
 
     /**
      * Save an oAuth record into the database
-     * @param  PicPuller_OauthModel $model An instance of an oAuth modeel
+     * @param  PicPuller_OauthModel $model An instance of an oAuth model
      * @return BOOL                      True or false depending on success
      */
     public function saveOauth(PicPuller_OauthModel &$model) {
