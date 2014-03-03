@@ -290,11 +290,11 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	/**
 	 * Media Recent
 	 *
-	 * Get the most recent media published from a specified EE user that has authorized the Instagram application
+	 * Get the most recent media published from a specified Craft user that has authorized the Instagram application
 	 * http://instagram.com/developer/endpoints/users/#get_users_media_recent
 	 *
 	 * @access	public
-	 * @param	tag param: 'user_id', the EE member ID of a user that has authorized the Instagram application
+	 * @param	tag param: 'user_id', the Craft member ID of a user that has authorized the Instagram application
 	 * @param 	tag param: 'limit', an integer that determines how many images to return
 	 * @param 	use_stale:
 	 * @return	tag data: caption, media_id, next_max_id, low_resolution, thumbnail, standard_resolution, latitude, longitude, link, created_time
@@ -410,11 +410,11 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 /**
 	 * User Feed
 	 *
-	 * Get the feed of a specified EE user that has authorized the Instagram application
+	 * Get the feed of a specified Craft user that has authorized the Instagram application
 	 * http://instagram.com/developer/endpoints/users/#get_users_feed
 	 *
 	 * @access	public
-	 * @param	tag param: 'user_id', the EE member ID of a user that has authorized the Instagram application
+	 * @param	tag param: 'user_id', the Craft member ID of a user that has authorized the Instagram application
 	 * @param 	tag param: 'limit', an integer that determines how many images to return
 	 * @param 	use_stale_cache:
 	 * @return	tag data: caption, media_id, next_max_id, low_resolution, thumbnail, standard_resolution, latitude, longitude, link, created_time, profile_picture, username, website, full_name, user_id
@@ -529,11 +529,11 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	/**
 	 * User Liked
 	 *
-	 * Get liked media of a specified EE user that has authorized the Instagram application
+	 * Get liked media of a specified Craft user that has authorized the Instagram application
 	 * http://instagram.com/developer/endpoints/users/#get_users_liked_feed
 	 *
 	 * @access	public
-	 * @param	tag param: 'user_id', the EE member ID of a user that has authorized the Instagram application
+	 * @param	tag param: 'user_id', the Craft member ID of a user that has authorized the Instagram application
 	 * @param 	tag param: 'limit', an integer that determines how many images to return
 	 * @param 	use_stale_cache:
 	 * @return	tag data: caption, media_id, next_max_id, low_resolution, thumbnail, standard_resolution, latitude, longitude, link, created_time, profile_picture, username, website, full_name, user_id
@@ -651,7 +651,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	 * http://instagram.com/developer/endpoints/tags/#get_tags_media_recent
 	 *
 	 * @access	public
-	 * @param	tag param: 'user_id', the EE member ID of a user that has authorized the Instagram application
+	 * @param	tag param: 'user_id', the Craft member ID of a user that has authorized the Instagram application
 	 * @param 	tag param: 'limit', an integer that determines how many images to return
 	 * @param 	use_stale_cache:
 	 * @return	tag data: caption, media_id, next_max_id, low_resolution, thumbnail, standard_resolution, latitude, longitude, link, created_time, profile_picture, username, website, full_name, user_id
@@ -777,20 +777,13 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 
 
 
-
-
-
-
-
-
-
 	 /******************************************
 	  *                                        *
 	  *     -------------------------------    *
 	  *		PRIVATE HELPER FUNCTIONS FOLLOW    *
 	  *     -------------------------------    *
 	  *                  ***                   *
-	  *                                        *                                        *
+	  *                                        *
 	  ******************************************/
 
 
@@ -876,7 +869,11 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 			);
 		return $variables;
 	}
-	
+
+
+
+
+
 
 	/**
 	 * Get user oAuth by Craft user ID
@@ -891,10 +888,10 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
     /**
 	 * Get Instagram ID
 	 *
-	 * Get Instagram ID for an EE member ID
+	 * Get Instagram ID for an Craft member ID
 	 *
 	 * @access	private
-	 * @param	string - User ID number for an EE member
+	 * @param	string - User ID number for an Craft member
 	 * @return	mixed - returns Instagram ID if available in DB, or FALSE if unavailable
 	 */
 
