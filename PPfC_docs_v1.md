@@ -6,7 +6,7 @@ Pic Puller for Craft, a.k.a. PPfC, helps you set up your _own_ application with 
 
 ### Version History
 
-* Version 1.0 
+* Version 1.1 
 	* Initial release of PPfC
 
 ### How to install Pic Puller for Craft
