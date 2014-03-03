@@ -12,15 +12,13 @@
 		<p><img src="{{ igdata.low_resolution }}" class='pppreviewimage'></p>
 		{% else %}
 		<p>
-			<video controls class='pppreviewimage'>
+			<video controls poster="{{ igdata.low_resolution }}" class='pppreviewimage'>
 				<source src="{{ igdata.video_low_resolution }}" type="video/mp4">
-				  Your browser does not support the video tag.
+				  <img src="{{ igdata.low_resolution }}" class='pppreviewimage'>
 			</video>
 		</p>
 		{% endif %}
-		<p>{{ igdata.caption }}</p>
+		<p><em>Caption: </em>{{ igdata.caption }}</p>
 	{% endfor %}
-{# 	{% for popularPics in craft.picpuller.popular({'foo': 'bar', 'use_stale_cache' : true, 'limit': 20}) %}
-        <p><img src="{{ popularPics.low_resolution }}"></p>
-	{% endfor %} #}
+
 </div>
