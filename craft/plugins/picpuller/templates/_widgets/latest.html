@@ -1,0 +1,26 @@
+<div class="body">
+<style>
+	.pppreviewimage {
+		max-width: 100%;
+		margin: 0 auto;
+		display: block;
+		border: 1px solid #aaa;
+	}
+</style>
+	{% for igdata in media_recent %}
+		{% if igdata.video_low_resolution == '' %}
+		<p><img src="{{ igdata.low_resolution }}" class='pppreviewimage'></p>
+		{% else %}
+		<p>
+			<video controls class='pppreviewimage'>
+				<source src="{{ igdata.video_low_resolution }}" type="video/mp4">
+				  Your browser does not support the video tag.
+			</video>
+		</p>
+		{% endif %}
+		<p>{{ igdata.caption }}</p>
+	{% endfor %}
+{# 	{% for popularPics in craft.picpuller.popular({'foo': 'bar', 'use_stale_cache' : true, 'limit': 20}) %}
+        <p><img src="{{ popularPics.low_resolution }}"></p>
+	{% endfor %} #}
+</div>
