@@ -98,12 +98,12 @@ class PicPuller_OauthController extends BaseController
         if (isset($json->{'access_token'}) ){
             $model = new PicPuller_OauthModel();
 
-            $formattedReturnedData = [
+            $formattedReturnedData = array(
                 'app_id'=>$attributes['appId'],
                 'oauth'=>$json->{'access_token'},
                 'instagram_id'=>$json->{'user'}->id,
                 'member_id'=>$attributes['userId']
-            ];
+            );
 
             $model->setAttributes($formattedReturnedData);
 
