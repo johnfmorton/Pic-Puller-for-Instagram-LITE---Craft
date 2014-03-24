@@ -189,35 +189,35 @@ class PicPuller_OauthController extends BaseController
 
 
     // TESTING function only --- remove it
-    public function actionSaveOauth()
-    {
-        $model = new PicPuller_OauthModel();
-        //$attributes = craft()->request->getPost();
+    // public function actionSaveOauth()
+    // {
+    //     $model = new PicPuller_OauthModel();
+    //     //$attributes = craft()->request->getPost();
 
-        $fakeattributes = [
-            'app_id'=> rand(10,100),
-            'oauth' => '757575.2342.23423',
-            'instagram_id' => '23423',
-            'member_id' => rand(10,100)
-        ];
+    //     $fakeattributes = [
+    //         'app_id'=> rand(10,100),
+    //         'oauth' => '757575.2342.23423',
+    //         'instagram_id' => '23423',
+    //         'member_id' => rand(10,100)
+    //     ];
 
-        //$this->returnJson($fakeattributes);
-        $model->setAttributes($fakeattributes);
-        // $this->returnJson($model);
+    //     //$this->returnJson($fakeattributes);
+    //     $model->setAttributes($fakeattributes);
+    //     // $this->returnJson($model);
 
-        if (craft()->picPuller_appCreation->saveOauth($model))
-        {
-           craft()->userSession->setNotice(Craft::t('oAuth saved.'));
-            //$this->redirectToPostedUrl();
-           $this->redirect('picpuller', $terminate = true, $statusCode = 200);
+    //     if (craft()->picPuller_appCreation->saveOauth($model))
+    //     {
+    //        craft()->userSession->setNotice(Craft::t('oAuth saved.'));
+    //         //$this->redirectToPostedUrl();
+    //        $this->redirect('picpuller', $terminate = true, $statusCode = 200);
 
-        }
-        else
-        {
-            craft()->userSession->setError(Craft::t('Damn it!'));
+    //     }
+    //     else
+    //     {
+    //         craft()->userSession->setError(Craft::t('Damn it!'));
 
-        }
-    }
+    //     }
+    // }
 
 
 
