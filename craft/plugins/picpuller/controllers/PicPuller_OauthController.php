@@ -122,7 +122,8 @@ class PicPuller_OauthController extends BaseController
             // app we will have the newly created model to the database
             if (craft()->picPuller_appCreation->saveOauth($model))
             {
-               $this->returnJson(['success' => true]);
+               //$this->returnJson(['success' => true]); PHP 5.4 syntax
+               $this->returnJson(array('success' => true));
             }
             else
             {
