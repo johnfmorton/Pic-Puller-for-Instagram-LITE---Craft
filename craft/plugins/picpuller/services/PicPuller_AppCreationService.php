@@ -4,7 +4,7 @@ namespace Craft;
 
 defined('CRAFT_PLUGINS_PATH')      || define('CRAFT_PLUGINS_PATH',      CRAFT_BASE_PATH.'plugins/');
 
-require_once(CRAFT_PLUGINS_PATH.'picpuller/lib/FirePHPCore/fb.php');
+// require_once(CRAFT_PLUGINS_PATH.'picpuller/lib/FirePHPCore/fb.php');
 
 /*
 
@@ -13,7 +13,7 @@ You'll need to use FirePHP for Firefox or FirePHP4Chrome and look at your consol
 
 */
 
-\FB::setEnabled(craft()->config->get('devMode'));
+// \FB::setEnabled(craft()->config->get('devMode'));
 
 // Examples:
 // \FB::log('Log message', 'Label');

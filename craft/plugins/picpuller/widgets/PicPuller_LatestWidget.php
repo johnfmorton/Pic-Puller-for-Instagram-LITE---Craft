@@ -3,7 +3,7 @@ namespace Craft;
 
 defined('CRAFT_PLUGINS_PATH')      || define('CRAFT_PLUGINS_PATH',      CRAFT_BASE_PATH.'plugins/');
 
-require_once(CRAFT_PLUGINS_PATH.'picpuller/lib/FirePHPCore/fb.php');
+// require_once(CRAFT_PLUGINS_PATH.'picpuller/lib/FirePHPCore/fb.php');
 /*
 
 Digging around? Enable FirePHP debugging by changin "devMode" to true in your config file, or, FB::setEnabled(true);
@@ -31,11 +31,11 @@ class PicPuller_LatestWidget extends BaseWidget
     {
         Craft::log(__METHOD__, LogLevel::Info, true);
 
-        \FB::log(craft()->userSession->user->id, 'Current Logged in User ID:');
+        // \FB::log(craft()->userSession->user->id, 'Current Logged in User ID:');
         $media_recent = craft()->picPuller_feedReader->media_recent(array('user_id' => craft()->userSession->user->id, 'limit' => 1));
-         \FB::log($media_recent, '$media_recent');
+         // \FB::log($media_recent, '$media_recent');
         $renderedTemplate = craft()->templates->render('picpuller/_widgets/latest',  array( 'media_recent' => $media_recent) );
-        
+
         //$renderedTemplate = craft()->templates->render('picpuller/_widgets/latest');
         return $renderedTemplate;
     }

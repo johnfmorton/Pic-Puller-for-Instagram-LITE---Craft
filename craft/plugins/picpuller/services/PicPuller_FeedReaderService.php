@@ -13,7 +13,7 @@ You'll need to use FirePHP for Firefox or FirePHP4Chrome and look at your consol
 
 */
 
-\FB::setEnabled(craft()->config->get('devMode'));
+// \FB::setEnabled(craft()->config->get('devMode'));
 
 // Examples:
 // \FB::log('Log message', 'Label');
@@ -34,7 +34,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	private $_ig_picpuller_prefix = '';
 	private $use_stale = TRUE;
 	// $refresh stores the amount of time we'll keep cached data (urls, not actual images) from Instagram
-	private $refresh = 1440;	// Period between cache refreshes, in minutes. 1440 is 24 hours. 
+	private $refresh = 1440;	// Period between cache refreshes, in minutes. 1440 is 24 hours.
 
 	/**
 	 * Get popular photos from Instagram
@@ -915,7 +915,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 	{
 		$options = array(
 					'debug' => false,
-					'CURLOPT_RETURNTRANSFER' => 1, 
+					'CURLOPT_RETURNTRANSFER' => 1,
 					'CURLOPT_SSL_VERIFYPEER' => false,
 				);
 		$client = new \Guzzle\Http\Client(self::IG_API_URL.$url, $options);
@@ -1025,9 +1025,9 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		$cacheDirectory = craft()->path->getCachePath() . '/' . $this->cache_name . '/';
 
 		if ( ! IOHelper::folderExists($cacheDirectory)){
-			\FB::info('Cache folder DOES NOT exist; no cache to check for.');
+			// \FB::info('Cache folder DOES NOT exist; no cache to check for.');
 			return FALSE;
-		} 
+		}
 
 		// Check for cache file
 
@@ -1036,7 +1036,7 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		if ( ! IOHelper::fileExists($file)){
 			\FB::info('Cache file DOES NOT exist.');
 			return FALSE;
-		} 
+		}
 
 		$cache = IOHelper::getFileContents($file);
 
@@ -1049,10 +1049,10 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		$timestamp = substr($cache, 0, $eol);
 		$cache = trim((substr($cache, $eol)));
 
-		\FB::info($timestamp, 'timestamp');
-		\FB::info($this->refresh, '$this->refresh');
-		\FB::info(time(), 'time()');
-		\FB::info($timestamp + ($this->refresh * 60), '$timestamp + ($this->refresh * 60)');
+		// \FB::info($timestamp, 'timestamp');
+		// \FB::info($this->refresh, '$this->refresh');
+		// \FB::info(time(), 'time()');
+		// \FB::info($timestamp + ($this->refresh * 60), '$timestamp + ($this->refresh * 60)');
 
 		if (time() > ($timestamp + ($this->refresh * 60)))
 		{
@@ -1081,21 +1081,21 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 
 		Craft::log('Pic Puller: _write_cache $data '. gettype($data));
 		$data = json_encode($data);
-		
+
 
 		// Figure out the cache directory path and name
 		$cacheDirectory = craft()->path->getCachePath() . '/' . $this->cache_name . '/';
 		// Make sure the folder exists and create it if it doesn't.
 		IOHelper::ensureFolderExists($cacheDirectory);
 
-		\FB::info($cacheDirectory, 'cacheDirectory');
-		\FB::info($url, 'url');
+		// \FB::info($cacheDirectory, 'cacheDirectory');
+		// \FB::info($url, 'url');
 
 		// add a timestamp to the top of the file
 		$data = time()."\n".$data;
 
 		$file = $cacheDirectory.md5($url);
-		\FB::info($file, 'file');
+		// \FB::info($file, 'file');
 		// Write it out to the file
 		IOHelper::writeToFile($file , $data , true);
 
@@ -1114,8 +1114,8 @@ class PicPuller_FeedReaderService extends BaseApplicationComponent
 		$dir = $cacheDirectory;
 
 		$sorted_array = $this->listdir_by_date($dir.$file);
-		
-		\FB::info($sorted_array, 'sorted_array');
+
+		// \FB::info($sorted_array, 'sorted_array');
 
 		$count = count($sorted_array);
 		foreach ($sorted_array as $value) {
