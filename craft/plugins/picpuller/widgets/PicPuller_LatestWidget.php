@@ -11,7 +11,7 @@ You'll need to use FirePHP for Firefox or FirePHP4Chrome and look at your consol
 
 */
 
-\FB::setEnabled(craft()->config->get('devMode'));
+// \FB::setEnabled(craft()->config->get('devMode'));
 
 // Examples:
 // \FB::log('Log message', 'Label');
