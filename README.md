@@ -7,7 +7,7 @@ http://craft.picpuller.com/
 
 This is still BETA software. 
 
-I've got an updated version in testing current for the full (i.e. paid) version of Pic Puller for Craft. It includes a fieldtype which allows authorized users to browse from the Instagram feed. It also has a tag search built into the fieldtype. It is compatible with a Matrix field type as well. 
+I've got an updated version in testing currently for the full (i.e. paid) version of Pic Puller for Craft. It includes a fieldtype which allows authorized users to browse from the Instagram feed. It also has a tag search built into the fieldtype. It is compatible with a Matrix field type as well.  It's getting very positive feedback from beta testers.
 
 Cheers.
 
