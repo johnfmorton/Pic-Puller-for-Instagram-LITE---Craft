@@ -1,6 +1,6 @@
 # Welcome to Pic Puller for Craft.
 
-Update: This Plug-in will no longer work because the Instagram API has removed access to the *popular* image feed.
+## Update: This Plug-in will no longer work because the Instagram API has removed access to the *popular* image feed.
 
 Take a look at documentation, PPfC_docs_v1.md, which should be next to this file in the directory.
 
