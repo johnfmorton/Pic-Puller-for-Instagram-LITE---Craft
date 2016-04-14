@@ -5,7 +5,7 @@
 Take a look at documentation, PPfC_docs_v1.md, which should be next to this file in the directory.
 
 See the plug in in action here:
-http://craft.picpuller.com/
+http://picpuller.com/
 
 This is still BETA software. 
 
